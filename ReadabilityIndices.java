@@ -27,7 +27,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 		ArrayList<String> tokens= new ArrayList<String>();
 		while (i<line.length()) {
 			wordSize= sizeOfWord(line,i);
-			tokens.add(line.substring(i, i+wordSize-1));
+			tokens.add(line.substring(i, i+wordSize));
 			i=i+wordSize;
 		}
 		return tokens;
