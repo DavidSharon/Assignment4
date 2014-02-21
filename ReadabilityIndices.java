@@ -30,6 +30,23 @@ public class ReadabilityIndices extends ConsoleProgram {
 	 */
 	private int syllablesInWord(String word) {
 		/* TODO: Fill this in as Step One of the assignment. */
-		return 0;
+		int syllableCount=0;
+		int lastVowel=-1;
+		word=word.toLowerCase();
+		for (int i=0; i<word.length(); i++){
+			char currentChar=word.charAt(i);
+			if (currentChar=='e' || currentChar=='a' || currentChar=='y' || currentChar=='u' || currentChar=='i' || currentChar=='o'){
+				if (lastVowel!=(i-1)) {
+					syllableCount+=1;
+				}
+				lastVowel=i;
+			}
+		}
+		char lastLetter= word.charAt(word.length()-1);
+		if (lastLetter=='e') {
+				syllableCount-=1;
+		}
+		if (syllableCount<=0) return 1;
+		return syllableCount;
 	}
 }
