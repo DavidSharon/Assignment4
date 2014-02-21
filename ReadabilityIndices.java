@@ -40,6 +40,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 		while (Character.isLetter(currentChar)==true && i<line.length()) {
 			wordSize+=1;
 			i+=1;
+			currentChar=line.charAt(i);
 		}
 		if (wordSize==0) return 1;
 		return wordSize;
