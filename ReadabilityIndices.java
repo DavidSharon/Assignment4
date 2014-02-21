@@ -6,21 +6,46 @@
  */
 
 import acm.program.*;
+import java.util.*;
 
 public class ReadabilityIndices extends ConsoleProgram {
 	public void run() {
-		/* Continuously prompt the user for a word, then print out how many
-		 * syllables it's estimated to contain.
-		 */
 		while (true) {
-			/* Read a word. If the user enters the empty string, stop. */
-			String word = readLine("Enter a word: ");
-			if (word.isEmpty()) break;
-			
-			/* Output the estimated number of syllables. */
-			println("  Estimated number of syllables: " + syllablesInWord(word));
+			String line = readLine("Enter text to tokenize: ");
+			if (line.isEmpty()) break;
+			ArrayList<String> tokens = tokenize(line);
+			println(" Number of tokens: " + tokens.size());
+			for (int i = 0; i < tokens.size(); i++) {
+				println(" Token #" + (i + 1) + ": [" + tokens.get(i) + "]");
+			}
 		}
 	}
+
+	private ArrayList<String> tokenize(String line) {
+		int i=0;
+		int wordSize=0;
+		int y=0;
+		ArrayList<String> tokens= new ArrayList<String>();
+		while (i<line.length()) {
+			wordSize= sizeOfWord(line,i);
+			tokens.add(line.substring(i, i+wordSize-1));
+			i=i+wordSize;
+		}
+		return tokens;
+	}
+	
+	private int sizeOfWord(String line, int start){
+		char currentChar=line.charAt(start);
+		int wordSize=0;
+		int i=start;
+		while (Character.isLetter(currentChar)==true || i<line.length()) {
+			wordSize+=1;
+			i+=1;
+		}
+		if (wordSize==0) return 1;
+		return wordSize;
+	}
+	
 	
 	/**
 	 * Given a word, returns an estimate of the number of syllables in that word.
@@ -43,10 +68,11 @@ public class ReadabilityIndices extends ConsoleProgram {
 					syllableCount+=1;
 				}
 				lastVowel=i;
-			}
-			
+			}	
 		}		
 		if (syllableCount<=0) return 1;
 		return syllableCount;
 	}
+
+
 }
