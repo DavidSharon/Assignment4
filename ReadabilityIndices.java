@@ -24,7 +24,6 @@ public class ReadabilityIndices extends ConsoleProgram {
 	private ArrayList<String> tokenize(String line) {
 		int i=0;
 		int wordSize=0;
-		int y=0;
 		ArrayList<String> tokens= new ArrayList<String>();
 		while (i<line.length()) {
 			wordSize= sizeOfWord(line,i);
@@ -33,20 +32,20 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 		return tokens;
 	}
-	
+
 	private int sizeOfWord(String line, int start){
 		char currentChar=line.charAt(start);
 		int wordSize=0;
 		int i=start;
-		while (Character.isLetter(currentChar)==true || i<line.length()) {
+		while (Character.isLetter(currentChar)==true && i<line.length()) {
 			wordSize+=1;
 			i+=1;
 		}
 		if (wordSize==0) return 1;
 		return wordSize;
 	}
-	
-	
+
+
 	/**
 	 * Given a word, returns an estimate of the number of syllables in that word.
 	 * 
