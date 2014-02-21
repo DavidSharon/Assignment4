@@ -37,15 +37,15 @@ public class ReadabilityIndices extends ConsoleProgram {
 			char currentChar=word.charAt(i);
 			if (currentChar=='e' || currentChar=='a' || currentChar=='y' || currentChar=='u' || currentChar=='i' || currentChar=='o'){
 				if (lastVowel!=(i-1)) {
+					if ((currentChar=='e') && (i==word.length()-1)){
+						break;
+					}
 					syllableCount+=1;
 				}
 				lastVowel=i;
 			}
-		}
-		char lastLetter= word.charAt(word.length()-1);
-		if (lastLetter=='e' && lastVowel!=word.length()-2) {
-				syllableCount-=1;
-		}
+			
+		}		
 		if (syllableCount<=0) return 1;
 		return syllableCount;
 	}
