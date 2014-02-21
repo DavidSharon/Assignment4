@@ -43,7 +43,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 			}
 		}
 		char lastLetter= word.charAt(word.length()-1);
-		if (lastLetter=='e') {
+		if (lastLetter=='e' && lastVowel!=word.length()-2) {
 				syllableCount-=1;
 		}
 		if (syllableCount<=0) return 1;
