@@ -31,7 +31,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 	private int syllablesInWord(String word) {
 		/* TODO: Fill this in as Step One of the assignment. */
 		int syllableCount=0;
-		int lastVowel=-1;
+		int lastVowel=-2;
 		word=word.toLowerCase();
 		for (int i=0; i<word.length(); i++){
 			char currentChar=word.charAt(i);
