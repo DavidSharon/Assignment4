@@ -32,6 +32,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 				numLines++;
 			}
 			println("Number of lines:"+numLines);
+			br.close();
 			return fileInput;
 		} catch (IOException e) {
 			println("An error occurred: " + e);
