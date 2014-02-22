@@ -30,11 +30,9 @@ public class ReadabilityIndices extends ConsoleProgram {
 
 	private int wordsInLine(ArrayList<String> tokens){
 		int result=0;
-		String currentWord="";
-		char currentChar=currentWord.charAt(0);
+		char currentChar='{';
 		for (int i=0; i<tokens.size(); i++) {
-			currentWord=tokens.get(i);
-			currentChar=currentWord.charAt(0);
+			currentChar=tokens.get(i).charAt(0);
 			if (Character.isLetter(currentChar)==true) result++;
 		}
 		return result;
