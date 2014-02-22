@@ -45,7 +45,8 @@ public class ReadabilityIndices extends ConsoleProgram {
 			currentChar=tokens.get(i).charAt(0);
 			if (currentChar=='.') result++;
 		}
-		return result
+		return result;
+	}
 
 		private ArrayList<String> tokenize(String line) {
 			int i=0;
