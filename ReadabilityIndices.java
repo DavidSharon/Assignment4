@@ -22,22 +22,21 @@ public class ReadabilityIndices extends ConsoleProgram {
 	}
 	
 	private ArrayList<String> fileContents(String fileName) {
+		ArrayList<String> fileInput= new ArrayList<String>();
 		try {
 			BufferedReader br = 
 				new BufferedReader(new FileReader(fileName));
 			int numLines=0;
-			ArrayList<String> fileInput= new ArrayList<String>();
 			while (fileInput.get(numLines)!=null) {
 				fileInput.add(br.readLine());
 				numLines++;
 			}
 			println("Number of lines:"+numLines);
 			br.close();
-			return fileInput;
 		} catch (IOException e) {
 			println("An error occurred: " + e);
 		}
-		return null;
+		return fileInput;
 	}
 	
 	
