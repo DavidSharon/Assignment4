@@ -15,7 +15,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 			String fileName = readLine("Enter file name: ");
 			if (fileName.isEmpty()) break;
 			ArrayList<String> indvidualLines = fileContents(fileName);
-			for (int i=0; i<indvidualLines.size();i++) {
+			for (int i=0; i<indvidualLines.size()-1;i++) {
 				println(i+":"+indvidualLines.get(i));
 			}
 		}
