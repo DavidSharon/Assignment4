@@ -38,7 +38,29 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 		return fileInput;
 	}
-	
+	/**
+	 * Provides the Flesch Kincaid Grade Level of an array list of string
+	 * 
+	 * @param Array list of strings
+	 * @return Flesch Kincaid Grade Level
+	 */
+	private double fleschKincaidGradeLevelOf(ArrayList<String> lines){
+		double result=0;
+		double numWords=0;
+		double numSentences=0;
+		double numSyllables=0;
+		String currentLine="";
+		ArrayList<String> currentLineToken= new ArrayList<String>();
+		for (int i=0;i<lines.size();i++){
+			currentLine=lines.get(i);
+			currentLineToken=tokenize(currentLine);
+			numWords=numWords+wordsInLine(currentLineToken);
+			numSentences=numSentences+sentencesInLine(currentLineToken);
+			numSyllables=numSyllables+syllablesInLine(currentLineToken);
+		}
+		result=-15.59+0.39*(numWords/numSentences)+11.8*(numSyllables/numWords);
+		return result;
+	}
 	
 	/**
 	 * Counts the number of Syllables in an Array list
