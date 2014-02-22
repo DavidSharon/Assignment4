@@ -21,6 +21,10 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 	}
 
+	private int syllablesInLine(ArrayList<String> tokens) {
+	
+	}
+
 	private ArrayList<String> tokenize(String line) {
 		int i=0;
 		int wordSize=0;
