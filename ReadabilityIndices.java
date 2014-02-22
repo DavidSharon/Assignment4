@@ -14,11 +14,21 @@ public class ReadabilityIndices extends ConsoleProgram {
 		while (true) {
 			String fileName = readLine("Enter file name: ");
 			if (fileName.isEmpty()) break;
-			ArrayList<String> indvidualLines = fileContents(fileName);
-			for (int i=0; i<indvidualLines.size();i++) {
-				println(i+":"+indvidualLines.get(i));
+			if (isUrl(fileName)==true) {
+				ArrayList<String> indvidualLines = Scraper.pageContents(fileName);
+			}else{
+				ArrayList<String> indvidualLines = fileContents(fileName);
+				for (int i=0; i<indvidualLines.size();i++) {
+					println(i+":"+indvidualLines.get(i));
+				}
 			}
 		}
+	}
+	
+	private boolean isUrl(String fileName){
+		if (fileName.length()<8) return false;
+		if ((fileName.substring(0,8)=="http://") || (fileName.substring(0,9)=="https://")) return true;
+		return false;
 	}
 	
 	private ArrayList<String> fileContents(String fileName) {
@@ -58,17 +68,43 @@ public class ReadabilityIndices extends ConsoleProgram {
 			numSentences=numSentences+sentencesInLine(currentLineToken);
 			numSyllables=numSyllables+syllablesInLine(currentLineToken);
 		}
+		if (numWords==0) numWords=1;
+		if (numSentences==0) numWords=1;
 		result=-15.59+0.39*(numWords/numSentences)+11.8*(numSyllables/numWords);
 		return result;
 	}
-	
+
+	private double daleChallReadabilityScoreOf(ArrayList<String> lines) {
+		double result=0;
+		double numWords=0;
+		double numDifficultWords=0;
+		double numSentences=0;
+		double numSyllables=0;
+		double bonus=0;
+		String currentLine="";
+		ArrayList<String> currentLineToken= new ArrayList<String>();
+		for (int i=0;i<lines.size();i++){
+			currentLine=lines.get(i);
+			currentLineToken=tokenize(currentLine);
+			numWords=numWords+wordsInLine(currentLineToken);
+			numDifficultWords=numDifficultWords+diffWordsInLine(currentLineToken);
+			numSentences=numSentences+sentencesInLine(currentLineToken);
+			numSyllables=numSyllables+syllablesInLine(currentLineToken);
+		}
+		if (numWords==0) numWords=1;
+		if (numSentences==0) numWords=1;
+		if (numDifficultWords/numWords>=0.05) bonus=1;
+		result=0.1579*100*(numDifficultWords/numWords)+0.0496*(numWords/numSentences) +bonus;
+		return result;
+	}
+
 	/**
 	 * Counts the number of Syllables in an Array list
 	 * 
 	 * @param Array list of strings
 	 * @return Number of syllables in the array list
 	 */
-	
+
 	private int syllablesInLine(ArrayList<String> tokens) {
 		int result=0;
 		for (int i=0; i<tokens.size(); i++) {
@@ -78,14 +114,23 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 		return result;
 	}
-	
+
+	private int diffWordsInLine(ArrayList<String> tokens) {
+		int result=0;
+		for (int i=0; i<tokens.size(); i++) {
+			if (isWord(tokens.get(i))==true){
+				if (syllablesInWord((tokens.get(i)))>=3) result++;
+			}
+		}
+		return result;
+	}
 	/**
 	 * Counts the number of words in an Array list
 	 * 
 	 * @param Array list of strings
 	 * @return boolean
 	 */
-	
+
 	private int wordsInLine(ArrayList<String> tokens){
 		int result=0;
 		char currentChar='{';
@@ -107,7 +152,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Counts the number of sentences in a string
 	 * 
@@ -129,63 +174,63 @@ public class ReadabilityIndices extends ConsoleProgram {
 	 * @param The string 
 	 * @return An array list of Strings where each String is consecutive letters or just one of something else
 	 */
-		private ArrayList<String> tokenize(String line) {
-			int i=0;
-			int wordSize=0;
-			ArrayList<String> tokens= new ArrayList<String>();
-			while (i<line.length()) {
-				wordSize= sizeOfWord(line,i);
-				tokens.add(line.substring(i, i+wordSize));
-				i=i+wordSize;
-			}
-			return tokens;
+	private ArrayList<String> tokenize(String line) {
+		int i=0;
+		int wordSize=0;
+		ArrayList<String> tokens= new ArrayList<String>();
+		while (i<line.length()) {
+			wordSize= sizeOfWord(line,i);
+			tokens.add(line.substring(i, i+wordSize));
+			i=i+wordSize;
 		}
-		/**
-		 * Given a String and a starting point, returns an the number of letters in the word.
-		 * 
-		 * @param The string and where to start in the string
-		 * @return the number of consecutive letters from that starting point.
-		 */
-		private int sizeOfWord(String line, int start){
-			char currentChar=line.charAt(start);
-			int wordSize=0;
-			int i=start;
-			while (Character.isLetter(currentChar)==true && i<line.length()) {
-				wordSize+=1;
-				i+=1;
-				if (i<line.length()) currentChar=line.charAt(i);
-			}
-			if (wordSize==0) return 1;
-			return wordSize;
-		}
-
-
-		/**
-		 * Given a word, returns an estimate of the number of syllables in that word.
-		 * 
-		 * @param word The word in question.
-		 * @return An estimate of the number of syllables in the word.
-		 */
-		private int syllablesInWord(String word) {
-			/* TODO: Fill this in as Step One of the assignment. */
-			int syllableCount=0;
-			int lastVowel=-2;
-			word=word.toLowerCase();
-			for (int i=0; i<word.length(); i++){
-				char currentChar=word.charAt(i);
-				if (currentChar=='e' || currentChar=='a' || currentChar=='y' || currentChar=='u' || currentChar=='i' || currentChar=='o'){
-					if (lastVowel!=(i-1)) {
-						if ((currentChar=='e') && (i==word.length()-1)){
-							break;
-						}
-						syllableCount+=1;
-					}
-					lastVowel=i;
-				}	
-			}		
-			if (syllableCount<=0) return 1;
-			return syllableCount;
-		}
-
-
+		return tokens;
 	}
+	/**
+	 * Given a String and a starting point, returns an the number of letters in the word.
+	 * 
+	 * @param The string and where to start in the string
+	 * @return the number of consecutive letters from that starting point.
+	 */
+	private int sizeOfWord(String line, int start){
+		char currentChar=line.charAt(start);
+		int wordSize=0;
+		int i=start;
+		while (Character.isLetter(currentChar)==true && i<line.length()) {
+			wordSize+=1;
+			i+=1;
+			if (i<line.length()) currentChar=line.charAt(i);
+		}
+		if (wordSize==0) return 1;
+		return wordSize;
+	}
+
+
+	/**
+	 * Given a word, returns an estimate of the number of syllables in that word.
+	 * 
+	 * @param word The word in question.
+	 * @return An estimate of the number of syllables in the word.
+	 */
+	private int syllablesInWord(String word) {
+		/* TODO: Fill this in as Step One of the assignment. */
+		int syllableCount=0;
+		int lastVowel=-2;
+		word=word.toLowerCase();
+		for (int i=0; i<word.length(); i++){
+			char currentChar=word.charAt(i);
+			if (currentChar=='e' || currentChar=='a' || currentChar=='y' || currentChar=='u' || currentChar=='i' || currentChar=='o'){
+				if (lastVowel!=(i-1)) {
+					if ((currentChar=='e') && (i==word.length()-1)){
+						break;
+					}
+					syllableCount+=1;
+				}
+				lastVowel=i;
+			}	
+		}		
+		if (syllableCount<=0) return 1;
+		return syllableCount;
+	}
+
+
+}
