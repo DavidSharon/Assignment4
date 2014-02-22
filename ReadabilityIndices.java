@@ -23,7 +23,9 @@ public class ReadabilityIndices extends ConsoleProgram {
 	private int syllablesInLine(ArrayList<String> tokens) {
 		int result=0;
 		for (int i=0; i<tokens.size(); i++) {
-			result=result+syllablesInWord(tokens.get(i));
+			if (isWord(tokens.get(i))==true){
+				result=result+syllablesInWord(tokens.get(i));
+			}
 		}
 		return result;
 	}
@@ -37,7 +39,14 @@ public class ReadabilityIndices extends ConsoleProgram {
 		}
 		return result;
 	}
-
+	
+	private boolean isWord(String line) {
+		for (int i=0; i<line.length();i++){
+			if (Character.isLetter(line.charAt(i))==false) return false;
+		}
+		return true;
+	}
+	
 	private int sentencesInLine(ArrayList<String> tokens) {
 		int result=0;
 		char currentChar='[';
