@@ -20,12 +20,8 @@ public class ReadabilityIndices extends ConsoleProgram {
 			}else{
 				indvidualLines = fileContents(fileName);
 			}
-			if(indvidualLines.get(0)==null){
-				println("File or URL is empty");
-			}else{
-				println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
-				println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
-			}
+			println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
+			println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
 		}
 	}
 
@@ -54,9 +50,9 @@ public class ReadabilityIndices extends ConsoleProgram {
 			BufferedReader br = 
 				new BufferedReader(new FileReader(fileName));
 			while (true) {
-			    String line = br.readLine();  //Get line from file
-			    if(line == null) break; //Check that we haven't reached the end of the file
-			    fileInput.add(line); //Add that line to your list
+				String line = br.readLine();  //Get line from file
+				if(line == null) break; //Check that we haven't reached the end of the file
+				fileInput.add(line); //Add that line to your list
 			}
 			br.close();
 		} catch (IOException e) {
