@@ -53,12 +53,11 @@ public class ReadabilityIndices extends ConsoleProgram {
 		try {
 			BufferedReader br = 
 				new BufferedReader(new FileReader(fileName));
-			int numLines=0;
-			while (fileInput.get(numLines)!=null) {
-				fileInput.add(br.readLine());
-				numLines++;
+			while (true) {
+			    String line = br.readLine();  //Get line from file
+			    if(line == null) break; //Check that we haven't reached the end of the file
+			    fileInput.add(line); //Add that line to your list
 			}
-			println("Number of lines:"+numLines);
 			br.close();
 		} catch (IOException e) {
 			return null;
