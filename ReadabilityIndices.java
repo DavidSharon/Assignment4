@@ -9,6 +9,7 @@ import acm.program.*;
 import java.util.*;
 import java.io.*;
 
+
 public class ReadabilityIndices extends ConsoleProgram {
 	public void run() {
 		ArrayList<String> indvidualLines= new ArrayList<String>();
