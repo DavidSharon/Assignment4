@@ -21,7 +21,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 				indvidualLines = fileContents(fileName);
 			}
 			println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
-			println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
+			println("The Dale-Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
 		}
 	}
 
@@ -111,7 +111,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 		if (numWords==0) numWords=1;
 		if (numSentences==0) numWords=1;
 		if (numDifficultWords/numWords>=0.05) bonus=1;
-		result=0.1579*100*(numDifficultWords/numWords)+0.0496*(numWords/numSentences) +bonus;
+		result=0.1579*100*(numDifficultWords/numWords)+0.0496*(numWords/numSentences) +3.6365*bonus;
 		return result;
 	}
 
