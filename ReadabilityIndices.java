@@ -11,26 +11,39 @@ import java.io.*;
 
 public class ReadabilityIndices extends ConsoleProgram {
 	public void run() {
+		ArrayList<String> indvidualLines= new ArrayList<String>();
 		while (true) {
-			String fileName = readLine("Enter file name: ");
+			String fileName = readLine("Enter file name or website url: ");
 			if (fileName.isEmpty()) break;
 			if (isUrl(fileName)==true) {
-				ArrayList<String> indvidualLines = Scraper.pageContents(fileName);
+				indvidualLines = Scraper.pageContents(fileName);
 			}else{
-				ArrayList<String> indvidualLines = fileContents(fileName);
-				for (int i=0; i<indvidualLines.size();i++) {
-					println(i+":"+indvidualLines.get(i));
-				}
+				indvidualLines = fileContents(fileName);
 			}
+			println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
+			println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
 		}
 	}
 	
+	/**
+	 * Checks if a text is a URL
+	 * 
+	 * @param text
+	 * @return boolean
+	 */
 	private boolean isUrl(String fileName){
 		if (fileName.length()<8) return false;
 		if ((fileName.substring(0,8)=="http://") || (fileName.substring(0,9)=="https://")) return true;
 		return false;
 	}
 	
+	/**
+	 * Creates Array List of String where each String is a line of a file
+	 * 
+	 * @param file name
+	 * @return Array List of String
+	 */
+
 	private ArrayList<String> fileContents(String fileName) {
 		ArrayList<String> fileInput= new ArrayList<String>();
 		try {
@@ -73,7 +86,12 @@ public class ReadabilityIndices extends ConsoleProgram {
 		result=-15.59+0.39*(numWords/numSentences)+11.8*(numSyllables/numWords);
 		return result;
 	}
-
+	/**
+	 * Provides the Dale Chall Readability Score of a text
+	 * 
+	 * @param Array list of strings where each string represents a line of a file
+	 * @return Dale Chall Readability Score
+	 */
 	private double daleChallReadabilityScoreOf(ArrayList<String> lines) {
 		double result=0;
 		double numWords=0;
