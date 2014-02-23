@@ -20,11 +20,15 @@ public class ReadabilityIndices extends ConsoleProgram {
 			}else{
 				indvidualLines = fileContents(fileName);
 			}
-			println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
-			println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
+			if(indvidualLines.get(0)==null){
+				println("File or URL is empty");
+			}else{
+				println("The Flesch Kincaid Grade Level is:"+fleschKincaidGradeLevelOf(indvidualLines));
+				println("The Dale Chall Readability Score is:"+daleChallReadabilityScoreOf(indvidualLines));
+			}
 		}
 	}
-	
+
 	/**
 	 * Checks if a text is a URL
 	 * 
@@ -36,7 +40,7 @@ public class ReadabilityIndices extends ConsoleProgram {
 		if ((fileName.substring(0,8)=="http://") || (fileName.substring(0,9)=="https://")) return true;
 		return false;
 	}
-	
+
 	/**
 	 * Creates Array List of String where each String is a line of a file
 	 * 
